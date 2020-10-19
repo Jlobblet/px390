@@ -30,7 +30,7 @@ void decompose(double k, int* S, int* Q, double* F) {
     *S = (k > 0) - (k < 0);
 
     // frexp normalises the mantissa in [0.5, 1) so we need to double it and subtract 1 from the exponent
-    *F = frexp(k, Q) * 2;
+    *F = fabs(frexp(k, Q) * 2);
     --*Q;
 }
 

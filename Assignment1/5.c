@@ -32,4 +32,3 @@ int main() {
     printf("%lld", result);
     return 0;
 }
-

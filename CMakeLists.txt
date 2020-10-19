@@ -24,3 +24,4 @@ endmacro()
 
 add_subdirectory(Kata)
 add_subdirectory(Practice)
+add_subdirectory(Assignment1)

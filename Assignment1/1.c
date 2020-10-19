@@ -29,15 +29,9 @@ void decompose(double k, int* S, int* Q, double* F) {
     // branchless programming ftw
     *S = (k > 0) - (k < 0);
 
-    // Q is basically just the position of the leading bit in k
-    *Q = 0;
-    unsigned long k2 = floor(fabs(k));
-    while (k2 >>= 1u) {
-        ++*Q;
-    }
-
-    // this is just from the spec
-    *F = fabs(k) / pow(2.0, *Q);
+    // frexp normalises the mantissa in [0.5, 1) so we need to double it and subtract 1 from the exponent
+    *F = frexp(k, Q) * 2;
+    --*Q;
 }
 
 // end question

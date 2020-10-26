@@ -8,6 +8,7 @@
 //
 // int* move_to_front(int *arr, int arr_length);
 
+#define ARR_LEN 4
 #include <stdio.h>
 
 // begin question
@@ -26,9 +27,9 @@ int* move_to_front(const int* arr, int arr_length) {
 // end question
 
 int main() {
-    int arr[4] = {3, 4, 1, -6};
-    int* arr2 = move_to_front(arr, 4);
-    for (int i = 0; i < 4; i++) {
+    int arr[ARR_LEN] = {3, 4, 1, -6};
+    int* arr2 = move_to_front(arr, ARR_LEN);
+    for (int i = 0; i < ARR_LEN; i++) {
         printf("%i ", arr2[i]);
     }
     return 0;

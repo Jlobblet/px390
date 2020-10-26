@@ -1,0 +1,4 @@
+use_c99()
+lm()
+PROJECT("Assignment 2")
+add_executable(A2Q1 1.c)

@@ -9,6 +9,7 @@
 // int* move_to_front(int *arr, int arr_length);
 
 #define ARR_LEN 4
+
 #include <stdio.h>
 
 // begin question

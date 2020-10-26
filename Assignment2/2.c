@@ -4,8 +4,6 @@
 //
 //int  *reverse_order(int *arr, int arr_length);
 
-#define ARR_LEN 3
-
 #include <stdio.h>
 
 // begin question
@@ -23,6 +21,7 @@ int* reverse_order(int* arr, int arr_length) {
 // end question
 
 int main() {
+#define ARR_LEN 3
     int arr[ARR_LEN] = {3, 4, -6};
     int* arr2 = reverse_order(arr, ARR_LEN);
     for (int i = 0; i < ARR_LEN; i++) {

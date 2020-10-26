@@ -3,13 +3,11 @@
 // which swaps the values at element a of the input array with that at element b.
 // (note the indexing uses C notation so first element is element 0).
 
-#define ARR_LENGTH 5
-
 #include <stdio.h>
 
 // begin question
 
-void varr_swap(char *arr, int a, int b) {
+void varr_swap(char* arr, int a, int b) {
     char temp = arr[a];
     arr[a] = arr[b];
     arr[b] = temp;
@@ -17,7 +15,7 @@ void varr_swap(char *arr, int a, int b) {
 
 // end question
 
-void print_array(char *arr, int length) {
+void print_array(char* arr, int length) {
     printf("%c", arr[0]);
     for (int i = 1; i < length; i++) {
         printf(" %c", arr[i]);
@@ -26,7 +24,8 @@ void print_array(char *arr, int length) {
 }
 
 int main() {
-    char arr[ARR_LENGTH] = {'0', '1', '2', '3', '4'};
+#define ARR_LENGTH 5
+    char arr[] = "12345";
     print_array(arr, ARR_LENGTH);
     varr_swap(arr, 1, 3);
     print_array(arr, ARR_LENGTH);

@@ -40,7 +40,7 @@ void en_pot(double* posx, double* posy, double* posz, long ncharges, double* res
 // end question
 
 int main() {
-    #define ncharges 2
+#define ncharges 2
     double posx[ncharges] = {1, -1};
     double posy[ncharges] = {0, 0};
     double posz[ncharges] = {0, 0};

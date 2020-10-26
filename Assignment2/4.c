@@ -3,8 +3,6 @@
 // which returns the norm of the array arr defined as the sum of the
 // square of each of the elements of the array arr, which has length len.
 
-#define ARR_LENGTH 2
-
 #include <stdio.h>
 
 // begin question
@@ -20,7 +18,8 @@ int arr_norm(int* arr, int len) {
 // end question
 
 int main() {
-    int arr[ARR_LENGTH] = {3, 4};
-    printf("Norm: %i\n", arr_norm(arr, ARR_LENGTH));
+#define ARR_LENGTH 3
+    int arr[ARR_LENGTH] = {1, 2, 3};
+    printf("%i\n", arr_norm(arr, ARR_LENGTH));
     return 0;
 }

@@ -17,7 +17,7 @@ void mapi(int* array, int length, int (* mapping)(int, int)) {
 }
 
 // Perform an action, with each element of the array passed to it as parameter.
-void mapAction(int* array, int length, void (* action)(int)) {
+void apply(int* array, int length, void (* action)(int)) {
     for (int i = 0; i < length; i++) {
         action(array[i]);
     }
@@ -92,7 +92,7 @@ void prINT(int n) {
 }
 
 void print_arr(int* arr, int len) {
-    mapAction(arr, len, prINT);
+    apply(arr, len, prINT);
     printf("\n");
 }
 

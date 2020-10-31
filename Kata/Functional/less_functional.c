@@ -60,20 +60,15 @@ int reduce(int* array, int length, int (* folder)(int, int)) {
     return fold(tail, length - 1, folder, head);
 }
 
-int* __filter(int* array, int length, int (* predicate)(int), int* newLength) {
-    int* returnArray = malloc(sizeof(int) * length);
+void filter(int** array, int* length, int (* predicate)(int)) {
     int predLen = 0;
-    for (int i = 0; i < length; i++) {
-        if (!predicate(array[i]))continue;
-        returnArray[predLen++] = array[i];
+    for (int i = 0; i < *length; i++) {
+        if (!predicate((*array)[i])) continue;
+        (*array)[predLen++] = (*array)[i];
     }
-    realloc(returnArray, predLen * sizeof(int));
-    *newLength = predLen;
-    free(array);
-    return returnArray;
+    *array = realloc(*array, sizeof(int) * predLen);
+    *length = predLen;
 }
-
-#define filter(arr, len, predicate)  arr = __filter(arr, len, predicate, &len)
 
 int square(int n) {
     return n * n;
@@ -117,7 +112,7 @@ int main() {
     printf("Mapped array  : ");
     print_arr(arr, len);
 
-    filter(arr, len, isOdd);
+    filter(&arr, &len, isOdd);
     printf("Filtered array: ");
     print_arr(arr, len);
 

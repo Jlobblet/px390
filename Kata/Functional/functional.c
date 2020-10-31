@@ -3,22 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-int square(int n) {
-    return n * n;
-}
-
-int add(int a, int b) {
-    return a + b;
-}
-
-int even(int n) {
-    return (n % 2) == 0;
-}
-
-void prINT(int n) {
-    printf("%i ", n);
-}
+#include "functions.h"
 
 struct ArrayWithLength {
     int length;

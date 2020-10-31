@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "functions.h"
 
 // Mutate the input array by applying the given function to each element in the input array
 void map(int* array, int length, int (* mapping)(int)) {
@@ -68,30 +69,6 @@ void filter(int** array, int* length, int (* predicate)(int)) {
     }
     *array = realloc(*array, sizeof(int) * predLen);
     *length = predLen;
-}
-
-int square(int n) {
-    return n * n;
-}
-
-int add(int a, int b) {
-    return a + b;
-}
-
-int mult(int a, int b) {
-    return a * b;
-}
-
-int isEven(int n) {
-    return (n % 2) == 0;
-}
-
-int isOdd(int n) {
-    return !isEven(n);
-}
-
-void prINT(int n) {
-    printf("%i ", n);
 }
 
 void print_arr(int* arr, int len) {

@@ -35,12 +35,20 @@ int fold(int* array, int length, int (* folder)(int, int), int initVal) {
     return acc;
 }
 
-int foldr(int* array, int length, int (* folder)(int, int), int initVal) {
-    int rev[length];
+void scan(int* array, int length, int (* folder)(int, int), int initVal) {
+    int acc = initVal;
     for (int i = 0; i < length; i++) {
-        rev[length - i - 1] = array[i];
+        acc = folder(acc, array[i]);
+        array[i] = acc;
     }
-    return fold(rev, length, folder, initVal);
+}
+
+void scanr(int* array, int length, int (* folder)(int, int), int initVal) {
+    int acc = initVal;
+    for (int i = length - 1; i >= 0; i--) {
+        acc = folder(acc, array[i]);
+        array[i] = acc;
+    }
 }
 
 int reduce(int* array, int length, int (* folder)(int, int)) {
@@ -114,6 +122,11 @@ int main() {
     print_arr(arr, len);
 
 #define REDUCE
+#ifdef SCAN
+    scan(arr, len, add, 0);
+    printf("Scanned array : ");
+    print_arr(arr, len);
+#endif
 #ifdef FOLD
     int folded = fold(arr, len, mult, 1);
     printf("Folded array  : ");

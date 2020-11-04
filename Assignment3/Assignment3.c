@@ -1,10 +1,12 @@
 //
 // Insert list of bugs fixed here: this won't be marked, but may help both of us.
+// Fix missing math.h include
 //
 
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 // The following line does not contain a bug.
 void read_input(double *C, double *gamma, double *L, int *nx, double *t_F,double *t_out);

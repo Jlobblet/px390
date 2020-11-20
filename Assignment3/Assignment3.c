@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <math.h>
 
-# define M_PI		3.14159265358979323846	/* pi */
+# define M_PI 3.14159265358979323846 // pi
 
 // The following line does not contain a bug.
 void read_input(double* C, double* gamma, double* L, int* nx, double* t_F, double* t_out);

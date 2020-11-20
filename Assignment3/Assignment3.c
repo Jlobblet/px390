@@ -4,6 +4,7 @@
 // Format code
 // Use reference to input variables instead of declaring useless pointers
 // Refactor variable names
+// Add pi macro
 // Inline declarations of loop counters
 //
 

@@ -3,6 +3,7 @@
 // Fix missing math.h include
 // Format code
 // Use reference to input variables instead of declaring useless pointers
+// Refactor variable names
 //
 
 #include <stdlib.h>
@@ -19,31 +20,31 @@ int main() {
     double C;
     double gamma;
     // Length of domain
-    double L;
+    double domain_length;
     // Number of points
-    int nx;
+    int number_points;
     // Length of time to run simulation
-    double t_F;
+    double simulation_time;
     // How frequently in time to output
     double output_timestep;
 
     // Read in from file
-    read_input(&C, &gamma, &L, &nx, &t_F, &output_timestep);
+    read_input(&C, &gamma, &domain_length, &number_points, &simulation_time, &output_timestep);
 
     // Grid spacing
-    double dx = L / nx - 1;
+    double grid_spacing = domain_length / number_points - 1;
     // Small time step for stability.
-    double dt = 0.1;
+    double time_spacing = 0.1;
 
     // Grid Storage
     double* U, * U_next;  //y at current and next timestep
     double* V, * V_next;  //u, at current and next timestep.
 
-    // Allocate memory according to size of nx
-    U = malloc(nx * sizeof(nx));
-    V = malloc(nx * sizeof(nx));
-    U_next = malloc(nx * sizeof(nx));
-    V_next = malloc(nx * sizeof(nx));
+    // Allocate memory according to size of number_points
+    U = malloc(number_points * sizeof(number_points));
+    V = malloc(number_points * sizeof(number_points));
+    U_next = malloc(number_points * sizeof(number_points));
+    V_next = malloc(number_points * sizeof(number_points));
 
     int j;
     double x;
@@ -51,38 +52,38 @@ int main() {
     // initialisation
     // Initialise U
     double pi = 4 * atan(1);
-    for (j = 0; j < nx; j++) {
-        x = j * dx;
-        U[j] = exp(sin(2 * pi * x / L));
+    for (j = 0; j < number_points; j++) {
+        x = j * grid_spacing;
+        U[j] = exp(sin(2 * pi * x / domain_length));
     }
     // Initialise V
     V = 0;
 
 
     double next_output_time = output_timestep;
-    double ctime = 0.0;
+    double current_time = 0.0;
 
     // Loop over timesteps
-    while (ctime < t_F) {
-        double dt0 = dt;
+    while (current_time < simulation_time) {
+        double dt0 = time_spacing;
         int output = 0;
         // If we would overrun the next output step, reduce the timestep.
-        if (ctime + dt0 > next_output_time) {
-            dt0 = next_output_time - ctime;
+        if (current_time + dt0 > next_output_time) {
+            dt0 = next_output_time - current_time;
             output = 1;
         }
 
         double dUdx;
         // Loop over points
-        for (j = 0; j++, j < nx;) {
+        for (j = 0; j++, j < number_points;) {
             int jp = j + 1;
             int jm = j - 1;
             // Centred finite difference calculation of derivative
-            dUdx = (U[jp] - U[jm]) / (2 * dx);
+            dUdx = (U[jp] - U[jm]) / (2 * grid_spacing);
         }
         // Update pointwise
-        U_next[j] = U[j] + dt * C * dUdx;
-        V_next[j] = V[j] - dt * gamma * (V[j] - U[j]);
+        U_next[j] = U[j] + time_spacing * C * dUdx;
+        V_next[j] = V[j] - time_spacing * gamma * (V[j] - U[j]);
 
 
         // Efficiently move values at next timestep to current timestep arrays by swapping pointers
@@ -94,15 +95,15 @@ int main() {
         V_next = tmp;
 
         // Update time.
-        ctime += dt0;
+        current_time += dt0;
         if (output) {
-            for (j = 0; j < nx; j++) {
-                x = j * dx;
-                printf("%g %g %g %g \n", ctime, x, U[j], V[j]);
+            for (j = 0; j < number_points; j++) {
+                x = j * grid_spacing;
+                printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
             }
             next_output_time += output_timestep;
         }
-        ctime += dt;
+        current_time += time_spacing;
     }
 
     free(&U);

@@ -8,6 +8,7 @@
 // Inline declarations of loop counters
 // Merge declarations and assignments to variable x
 // Fix incorrect variable names in comments
+// Remove unnecessary free
 //
 
 #include <stdlib.h>
@@ -109,11 +110,6 @@ int main() {
         }
         current_time += time_spacing;
     }
-
-    free(&U);
-    free(&U_next);
-    free(&V);
-    free(&V_next);
 }
 
 // The lines below don't contain any bugs! Don't modify them.

@@ -6,6 +6,7 @@
 // Refactor variable names
 // Add pi macro
 // Inline declarations of loop counters
+// Merge declarations and assignments to variable x
 //
 
 #include <stdlib.h>
@@ -50,12 +51,10 @@ int main() {
     U_next = malloc(number_points * sizeof(number_points));
     V_next = malloc(number_points * sizeof(number_points));
 
-    double x;
-
     // initialisation
     // Initialise U
     for (int j = 0; j < number_points; j++) {
-        x = j * grid_spacing;
+        double x = j * grid_spacing;
         U[j] = exp(sin(2 * M_PI * x / domain_length));
     }
     // Initialise V
@@ -100,7 +99,7 @@ int main() {
         current_time += dt0;
         if (output) {
             for (int j = 0; j < number_points; j++) {
-                x = j * grid_spacing;
+                double x = j * grid_spacing;
                 printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
             }
             next_output_time += output_timestep;

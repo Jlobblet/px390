@@ -4,6 +4,7 @@
 // Format code
 // Use reference to input variables instead of declaring useless pointers
 // Refactor variable names
+// Inline declarations of loop counters
 //
 
 #include <stdlib.h>
@@ -48,12 +49,11 @@ int main() {
     U_next = malloc(number_points * sizeof(number_points));
     V_next = malloc(number_points * sizeof(number_points));
 
-    int j;
     double x;
 
     // initialisation
     // Initialise U
-    for (j = 0; j < number_points; j++) {
+    for (int j = 0; j < number_points; j++) {
         x = j * grid_spacing;
         U[j] = exp(sin(2 * M_PI * x / domain_length));
     }
@@ -76,15 +76,15 @@ int main() {
 
         double dUdx;
         // Loop over points
-        for (j = 0; j++, j < number_points;) {
+        for (int j = 0; j++, j < number_points;) {
             int jp = j + 1;
             int jm = j - 1;
             // Centred finite difference calculation of derivative
             dUdx = (U[jp] - U[jm]) / (2 * grid_spacing);
+            // Update pointwise
+            U_next[j] = U[j] + time_spacing * C * dUdx;
+            V_next[j] = V[j] - time_spacing * gamma * (V[j] - U[j]);
         }
-        // Update pointwise
-        U_next[j] = U[j] + time_spacing * C * dUdx;
-        V_next[j] = V[j] - time_spacing * gamma * (V[j] - U[j]);
 
 
         // Efficiently move values at next timestep to current timestep arrays by swapping pointers
@@ -98,7 +98,7 @@ int main() {
         // Update time.
         current_time += dt0;
         if (output) {
-            for (j = 0; j < number_points; j++) {
+            for (int j = 0; j < number_points; j++) {
                 x = j * grid_spacing;
                 printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
             }

@@ -12,6 +12,7 @@
 // Move size of U and V arrays to variable
 // Use stdbool.h for booleans
 // Simplify loop counter for line 88
+// Initialise V as an array, not an integer
 //
 
 #include <stdlib.h>
@@ -67,7 +68,9 @@ int main() {
         U[j] = exp(sin(2 * M_PI * x / domain_length));
     }
     // Initialise V
-    V = 0;
+    for (int j = 0; j < number_points; j++) {
+        V[j] = 0;
+    }
 
 
     double next_output_time = output_timestep;

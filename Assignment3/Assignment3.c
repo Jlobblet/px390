@@ -32,13 +32,9 @@ int main() {
     // Equation coefficients
     double C;
     double gamma;
-    // Length of domain
     double domain_length;
-    // Number of points
     int number_points;
-    // Length of time to run simulation
     double simulation_time;
-    // How frequently in time to output
     double output_timestep;
 
     // Read in from file

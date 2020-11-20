@@ -61,3 +61,4 @@ cmake-build-debug-coverage/
 
 # F# stuff
 /.ionide/
+/.vscode/

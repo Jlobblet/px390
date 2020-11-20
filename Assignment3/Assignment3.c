@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <math.h>
 
+# define M_PI		3.14159265358979323846	/* pi */
+
 // The following line does not contain a bug.
 void read_input(double* C, double* gamma, double* L, int* nx, double* t_F, double* t_out);
 
@@ -51,10 +53,9 @@ int main() {
 
     // initialisation
     // Initialise U
-    double pi = 4 * atan(1);
     for (j = 0; j < number_points; j++) {
         x = j * grid_spacing;
-        U[j] = exp(sin(2 * pi * x / domain_length));
+        U[j] = exp(sin(2 * M_PI * x / domain_length));
     }
     // Initialise V
     V = 0;

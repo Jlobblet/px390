@@ -7,6 +7,7 @@
 // Add pi macro
 // Inline declarations of loop counters
 // Merge declarations and assignments to variable x
+// Fix incorrect variable names in comments
 //
 
 #include <stdlib.h>
@@ -42,8 +43,10 @@ int main() {
     double time_spacing = 0.1;
 
     // Grid Storage
-    double* U, * U_next;  //y at current and next timestep
-    double* V, * V_next;  //u, at current and next timestep.
+    // U at current and next timestep
+    double* U, * U_next;
+    // V at current and next timestep
+    double* V, * V_next;
 
     // Allocate memory according to size of number_points
     U = malloc(number_points * sizeof(number_points));

@@ -13,6 +13,7 @@
 // Use stdbool.h for booleans
 // Simplify loop counter for line 88
 // Initialise V as an array, not an integer
+// Move dUdx inside the loop to simplify
 //
 
 #include <stdlib.h>
@@ -86,13 +87,12 @@ int main() {
             output = true;
         }
 
-        double dUdx;
         // Loop over points
         for (int j = 1; j < number_points; j++) {
             int jp = j + 1;
             int jm = j - 1;
             // Centred finite difference calculation of derivative
-            dUdx = (U[jp] - U[jm]) / (2 * grid_spacing);
+            double dUdx = (U[jp] - U[jm]) / (2 * grid_spacing);
             // Update pointwise
             U_next[j] = U[j] + time_spacing * C * dUdx;
             V_next[j] = V[j] - time_spacing * gamma * (V[j] - U[j]);

@@ -9,6 +9,7 @@
 // Merge declarations and assignments to variable x
 // Fix incorrect variable names in comments
 // Remove unnecessary free
+// Move size of U and V arrays to variable
 //
 
 #include <stdlib.h>
@@ -50,10 +51,11 @@ int main() {
     double* V, * V_next;
 
     // Allocate memory according to size of number_points
-    U = malloc(number_points * sizeof(number_points));
-    V = malloc(number_points * sizeof(number_points));
-    U_next = malloc(number_points * sizeof(number_points));
-    V_next = malloc(number_points * sizeof(number_points));
+    size_t arr_size = number_points * sizeof(number_points);
+    U = malloc(arr_size);
+    V = malloc(arr_size);
+    U_next = malloc(arr_size);
+    V_next = malloc(arr_size);
 
     // initialisation
     // Initialise U

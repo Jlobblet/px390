@@ -10,11 +10,13 @@
 // Fix incorrect variable names in comments
 // Remove unnecessary free (the operating system can handle that since it is at the end of main)
 // Move size of U and V arrays to variable
+// Use stdbool.h for booleans
 //
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 # define M_PI 3.14159265358979323846 // pi
 
@@ -73,11 +75,11 @@ int main() {
     // Loop over timesteps
     while (current_time < simulation_time) {
         double dt0 = time_spacing;
-        int output = 0;
+        bool output = false;
         // If we would overrun the next output step, reduce the timestep.
         if (current_time + dt0 > next_output_time) {
             dt0 = next_output_time - current_time;
-            output = 1;
+            output = true;
         }
 
         double dUdx;

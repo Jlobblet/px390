@@ -8,7 +8,7 @@
 // Inline declarations of loop counters
 // Merge declarations and assignments to variable x
 // Fix incorrect variable names in comments
-// Remove unnecessary free
+// Remove unnecessary free (the operating system can handle that since it is at the end of main)
 // Move size of U and V arrays to variable
 //
 

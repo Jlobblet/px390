@@ -2,6 +2,7 @@
 // Insert list of bugs fixed here: this won't be marked, but may help both of us.
 // Fix missing math.h include
 // Format code
+// Use reference to input variables instead of declaring useless pointers
 //
 
 #include <stdlib.h>
@@ -14,27 +15,20 @@ void read_input(double* C, double* gamma, double* L, int* nx, double* t_F, doubl
 int main() {
     // Parameters
 
-    // Define pointers for all the variables to pass them to the input function.
-    // I set them all to zero to prevent some stupid warning about uninitialised variables.
-    // Number of grid points
-    int* pnx = 0;
-    // Length of domain
-    double* pL = 0;
     // Equation coefficients
-    double* pC = 0, * pgamma = 0;
-    //  Length of time to run simulation.
-    double* pt_F = 0;
-    // How frequently in time to output.
-    double* poutput_timestep = 0;
-    // Read in from file;
-    read_input(pC, pgamma, pL, pnx, pt_F, poutput_timestep);
-    // Get data from pointers
-    double C = *pC;
-    double gamma = *pgamma;
-    double L = *pL;
-    int nx = *pnx;
-    double t_F = *pt_F;
-    double output_timestep = *poutput_timestep;
+    double C;
+    double gamma;
+    // Length of domain
+    double L;
+    // Number of points
+    int nx;
+    // Length of time to run simulation
+    double t_F;
+    // How frequently in time to output
+    double output_timestep;
+
+    // Read in from file
+    read_input(&C, &gamma, &L, &nx, &t_F, &output_timestep);
 
     // Grid spacing
     double dx = L / nx - 1;

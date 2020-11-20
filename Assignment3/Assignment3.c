@@ -11,6 +11,7 @@
 // Remove unnecessary free (the operating system can handle that since it is at the end of main)
 // Move size of U and V arrays to variable
 // Use stdbool.h for booleans
+// Simplify loop counter for line 88
 //
 
 #include <stdlib.h>
@@ -84,7 +85,7 @@ int main() {
 
         double dUdx;
         // Loop over points
-        for (int j = 0; j++, j < number_points;) {
+        for (int j = 1; j < number_points; j++) {
             int jp = j + 1;
             int jm = j - 1;
             // Centred finite difference calculation of derivative

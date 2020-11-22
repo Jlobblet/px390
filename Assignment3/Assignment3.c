@@ -14,6 +14,7 @@
 // Simplify loop counter for line 88
 // Initialise V as an array, not an integer
 // Move dUdx inside the loop to simplify
+// Properly bracket grid spacing
 //
 
 #include <stdlib.h>
@@ -41,7 +42,7 @@ int main() {
     read_input(&C, &gamma, &domain_length, &number_points, &simulation_time, &output_timestep);
 
     // Grid spacing
-    double grid_spacing = domain_length / number_points - 1;
+    double grid_spacing = domain_length / (number_points - 1);
     // Small time step for stability.
     double time_spacing = 0.1;
 

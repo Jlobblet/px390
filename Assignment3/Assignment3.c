@@ -15,6 +15,7 @@
 // Initialise V as an array, not an integer
 // Move dUdx inside the loop to simplify
 // Properly bracket grid spacing
+// Initialise U with cos instead of sin
 //
 
 #include <stdlib.h>
@@ -63,7 +64,7 @@ int main() {
     // Initialise U
     for (int j = 0; j < number_points; j++) {
         double x = j * grid_spacing;
-        U[j] = exp(sin(2 * M_PI * x / domain_length));
+        U[j] = exp(cos(2 * M_PI * x / domain_length));
     }
     // Initialise V
     for (int j = 0; j < number_points; j++) {

@@ -43,7 +43,14 @@ int main() {
     read_input(&C, &gamma, &domain_length, &number_points, &simulation_time, &output_timestep);
 
     // Grid spacing
-    double grid_spacing = domain_length / (number_points - 1);
+    double grid_spacing;
+    if (number_points > 1) {
+        grid_spacing = domain_length / (number_points - 1);
+    }
+    else {
+        printf("Cannot solve with a single point along space.\n");
+        exit(1);
+    }
     // Small time step for stability.
     double time_spacing = 0.1;
 

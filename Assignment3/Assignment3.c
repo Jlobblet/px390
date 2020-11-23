@@ -103,7 +103,7 @@ int main() {
             double slope = (U[j] - U[jm]) / grid_spacing;
             // Update pointwise
             // Since C and gamma can be assumed to be positive, no need to account for it.
-            U_next[j] = U[j] + slope * time_spacing * C;
+            U_next[j] = U[j] - slope * time_spacing * C;
             V_next[j] = V[j] + gamma * time_spacing * (U[j] - V[j]);
         }
 

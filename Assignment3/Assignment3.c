@@ -57,9 +57,8 @@ int main() {
         exit(1);
     }
     // Small time step for stability.
-    // Stable if C * time_spacing / grid_spacing < 1, i.e. stability_factor should be less than 1.
-    const double stability_factor = 0.1;
-    double time_spacing = grid_spacing * stability_factor / C;
+    // Stable if C * time_spacing / grid_spacing < 1.
+    double time_spacing = grid_spacing / C;
 
     // Grid Storage
     // U at current and next timestep

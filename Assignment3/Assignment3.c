@@ -52,8 +52,7 @@ int main() {
     double grid_spacing;
     if (number_points > 1) {
         grid_spacing = domain_length / (number_points - 1);
-    }
-    else {
+    } else {
         printf("Cannot solve with a single point along space.\n");
         exit(1);
     }

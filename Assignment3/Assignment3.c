@@ -20,6 +20,7 @@
 // Add output of initial conditions (t = 0)
 // Allocate correct amount of memory for each array
 // Calculate time_spacing variable to ensure stability
+// Remove erroneous second increase of current_time
 //
 
 #include <stdlib.h>
@@ -128,7 +129,6 @@ int main() {
             }
             next_output_time += output_timestep;
         }
-        current_time += time_spacing;
     }
 }
 

@@ -17,6 +17,7 @@
 // Properly bracket grid spacing
 // Initialise U with cos instead of sin
 // Use upwinding method to solve
+// Add output of initial conditions (t = 0)
 //
 
 #include <stdlib.h>
@@ -81,7 +82,7 @@ int main() {
     }
 
 
-    double next_output_time = output_timestep;
+    double next_output_time = 0.0;
     double current_time = 0.0;
 
     // Loop over timesteps

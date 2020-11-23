@@ -18,6 +18,7 @@
 // Initialise U with cos instead of sin
 // Use upwinding method to solve
 // Add output of initial conditions (t = 0)
+// Allocate correct amount of memory for each array
 //
 
 #include <stdlib.h>
@@ -64,7 +65,7 @@ int main() {
     double* V, * V_next;
 
     // Allocate memory according to size of number_points
-    size_t arr_size = number_points * sizeof(number_points);
+    size_t arr_size = number_points * sizeof(double);
     U = malloc(arr_size);
     V = malloc(arr_size);
     U_next = malloc(arr_size);

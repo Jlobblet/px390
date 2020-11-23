@@ -97,15 +97,15 @@ int main() {
         }
 
         // Loop over points
-        for (int j = 1; j < number_points; j++) {
+        for (int j = 0; j < number_points; j++) {
             // Centred space index for a periodic boundary.
             int jm = (j + number_points - 1) % number_points;
             // Finite difference evaluation of gradient.
             double slope = (U[j] - U[jm]) / grid_spacing;
             // Update pointwise
             // Since C and gamma can be assumed to be positive, no need to account for it.
-            U_next[j] = U[j] - slope * time_spacing * C;
-            V_next[j] = V[j] + gamma * time_spacing * (U[j] - V[j]);
+            U_next[j] = U[j] - slope * dt0 * C;
+            V_next[j] = V[j] + gamma * dt0 * (U[j] - V[j]);
         }
 
         // Efficiently move values at next timestep to current timestep arrays by swapping pointers

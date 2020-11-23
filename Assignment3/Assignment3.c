@@ -16,6 +16,7 @@
 // Move dUdx inside the loop to simplify
 // Properly bracket grid spacing
 // Initialise U with cos instead of sin
+// Use upwinding method to solve
 //
 
 #include <stdlib.h>
@@ -32,6 +33,7 @@ int main() {
     // Parameters
 
     // Equation coefficients
+    // All inputs can be assumed to be positive
     double C;
     double gamma;
     double domain_length;
@@ -94,15 +96,15 @@ int main() {
 
         // Loop over points
         for (int j = 1; j < number_points; j++) {
-            int jp = j + 1;
-            int jm = j - 1;
-            // Centred finite difference calculation of derivative
-            double dUdx = (U[jp] - U[jm]) / (2 * grid_spacing);
+            // Centred space index for a periodic boundary.
+            int jm = (j + number_points - 1) % number_points;
+            // Finite difference evaluation of gradient.
+            double slope = (U[j] - U[jm]) / grid_spacing;
             // Update pointwise
-            U_next[j] = U[j] + time_spacing * C * dUdx;
-            V_next[j] = V[j] - time_spacing * gamma * (V[j] - U[j]);
+            // Since C and gamma can be assumed to be positive, no need to account for it.
+            U_next[j] = U[j] + slope * time_spacing * C;
+            V_next[j] = V[j] + gamma * time_spacing * (U[j] - V[j]);
         }
-
 
         // Efficiently move values at next timestep to current timestep arrays by swapping pointers
         double* tmp;

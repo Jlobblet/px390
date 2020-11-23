@@ -30,6 +30,8 @@
 
 # define M_PI 3.14159265358979323846 // pi
 
+#define CSV
+
 // The following line does not contain a bug.
 void read_input(double* C, double* gamma, double* L, int* nx, double* t_F, double* t_out);
 
@@ -88,6 +90,10 @@ int main() {
     double next_output_time = 0.0;
     double current_time = 0.0;
 
+#ifdef CSV
+    printf("time,x,u,v\n");
+#endif
+
     // Loop over timesteps
     while (current_time < simulation_time) {
         double dt0 = time_spacing;
@@ -123,7 +129,11 @@ int main() {
         if (output) {
             for (int j = 0; j < number_points; j++) {
                 double x = j * grid_spacing;
+#ifdef CSV
                 printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
+#else
+                printf("%g,%g,%g,%g\n", current_time, x, U[j], V[j]);
+#endif
             }
             next_output_time += output_timestep;
         }

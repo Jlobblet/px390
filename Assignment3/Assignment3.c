@@ -19,6 +19,7 @@
 // Use upwinding method to solve
 // Add output of initial conditions (t = 0)
 // Allocate correct amount of memory for each array
+// Calculate time_spacing variable to ensure stability
 //
 
 #include <stdlib.h>
@@ -56,7 +57,9 @@ int main() {
         exit(1);
     }
     // Small time step for stability.
-    double time_spacing = 0.1;
+    // Stable if C * time_spacing / grid_spacing < 1, i.e. stability_factor should be less than 1.
+    const double stability_factor = 0.1;
+    double time_spacing = grid_spacing * stability_factor / C;
 
     // Grid Storage
     // U at current and next timestep

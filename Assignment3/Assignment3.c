@@ -54,7 +54,7 @@ int main() {
         grid_spacing = domain_length / (number_points - 1);
     } else {
         printf("Cannot solve with a single point along space.\n");
-        exit(1);
+        return 1;
     }
     // Small time step for stability.
     // Stable if C * time_spacing / grid_spacing < 1.

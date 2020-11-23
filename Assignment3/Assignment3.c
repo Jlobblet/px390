@@ -130,9 +130,9 @@ int main() {
             for (int j = 0; j < number_points; j++) {
                 double x = j * grid_spacing;
 #ifdef CSV
-                printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
-#else
                 printf("%g,%g,%g,%g\n", current_time, x, U[j], V[j]);
+#else
+                printf("%g %g %g %g \n", current_time, x, U[j], V[j]);
 #endif
             }
             next_output_time += output_timestep;

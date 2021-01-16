@@ -26,6 +26,7 @@ void read_input(input_parameters *s) {
         printf("Error reading input.\n");
         exit(1);
     }
+    fclose(input_file);
 }
 
 void read_coefficients(double* D, double* S) {
@@ -38,6 +39,7 @@ void read_coefficients(double* D, double* S) {
         D++;
         S++;
     }
+    fclose(coefficients_file);
 }
 
 int main() {

@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef nenneke
+#include <mkl_lapacke.h>
+#else
+#include <lapacke.h>
+#endif
+
 struct input_parameters {
     double domain_length; // aka L
     int number_points; // N
@@ -51,5 +57,7 @@ int main() {
     for (int i = 0; i < params.number_points; i++) {
         printf("D[%i] = %lf; S[%i] = %lf\n", i, D[i], i, S[i]);
     }
+    free(D);
+    free(S);
     return 0;
 }

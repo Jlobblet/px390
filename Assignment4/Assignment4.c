@@ -18,7 +18,7 @@ typedef struct {
     int number_points; // N
     double advection_velocity; // nu
     double decay_rate; // tau
-    double c;
+    double c; // value of P and Q at the right boundary x = L
 } input_parameters;
 
 // The read input functions return a bool

@@ -77,6 +77,63 @@ bool read_coefficients(double* D, double* S) {
     return true;
 }
 
+// Band matrix
+
+typedef struct {
+    // Number of columns in band matrix
+    long n_columns;
+    // Number of rows in matrix (equal to number of bands in original matrix)
+    long n_band_rows;
+    // Number of bands above diagonal
+    long n_bands_upper;
+    // Number of bands below diagonal
+    long n_bands_lower;
+    // Storage for matrix in banded format
+    double* array;
+    // Number of rows of inverse matrix
+    long n_band_rows_inv;
+    // Storage for inverse matrix
+    double* array_inv;
+    // Additional inverse information
+    int* ipiv;
+} band_matrix;
+
+bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, long n_columns) {
+
+    bm->n_columns = n_columns;
+    bm->n_band_rows = n_bands_upper + n_bands_lower + 1;
+    bm->n_bands_upper = n_bands_upper;
+    bm->n_bands_lower = n_bands_lower;
+    bm->n_band_rows_inv = bm->n_bands_upper * 2 + bm->n_bands_lower + 1;
+
+    size_t array_size = sizeof(double) * bm->n_band_rows * bm->n_columns;
+    size_t array_inv_size = sizeof(double) * (bm->n_band_rows + bm->n_bands_lower) * bm->n_columns;
+    size_t ipiv_size = sizeof(int) * bm->n_columns;
+
+    bm->array = malloc(array_size);
+    bm->array_inv = malloc(array_inv_size);
+    bm->ipiv = malloc(ipiv_size);
+
+    if (bm->array == NULL || bm->array_inv == NULL || bm->ipiv == NULL) {
+        printf("Failed to allocate %lu bytes of memory for band matrix.\n", array_size + array_inv_size + ipiv_size);
+        return false;
+    }
+
+    for (long i = 0; i < bm->n_band_rows * bm->n_columns; i++) {
+        bm->array[i] = 0.0;
+    }
+
+    return true;
+}
+
+void finalise_band_matrix(band_matrix* bm) {
+    free(bm->array);
+    free(bm->array_inv);
+    free(bm->ipiv);
+}
+
+// Main
+
 int main() {
     input_parameters params;
     // Since we left error handling to the call site, we must exit the program here if the function failed.

@@ -10,7 +10,9 @@
 
 #endif
 
-// Using a struct to store the input parameters since it makes function signatures nicer
+// Using a struct to store the input parameters since it makes function signatures nicer and keeps the
+// variables together in a logical grouping.
+
 typedef struct {
     double domain_length; // aka L
     int number_points; // N
@@ -23,10 +25,11 @@ typedef struct {
 // true if they succeed, false if they fail.
 // This is so that the piece of code that calls these functions can choose how to handle failure,
 // instead of the functions forcing a crash.
-// Ideally I would implement a Result monad here but that's a bit too much work in C.
+// Ideally I would use a Result monad here but that's a bit too much work in C.
 
 bool read_input(input_parameters* s) {
     FILE* input_file;
+    // Using a const char over #define here since it has a symbol in the debug table
     const char INPUT_FILE[] = "input.txt";
     if (!(input_file = fopen(INPUT_FILE, "r"))) {
         printf("Error opening input file %s.\n", INPUT_FILE);
@@ -66,12 +69,16 @@ bool read_coefficients(double* D, double* S) {
 
 int main() {
     input_parameters params;
+    // Since we left error handling to the call site, we must exit the program here if the function failed.
     if (!read_input(&params)) { return 1; }
 
     size_t array_size = sizeof(double) * params.number_points;
     double* D = malloc(array_size);
     double* S = malloc(array_size);
+    // Ensure that we were allocated the memory asked for.
     if (D == NULL || S == NULL) {
+        // array_size * 2 since if either D or S failed to allocate the program will exit.
+        // We don't know which failed, but it doesn't matter - we need both for the program to work.
         printf("Failed to allocated %lu bytes memory", array_size * 2);
         return 1;
     }

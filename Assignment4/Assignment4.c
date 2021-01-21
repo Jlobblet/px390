@@ -16,11 +16,17 @@ typedef struct {
     double c;
 } input_parameters;
 
-void read_input(input_parameters *s) {
+// The read input functions return a bool
+// true if they succeed, false if they fail.
+// This is so that the piece of code that calls these functions can choose how to handle failure,
+// instead of the functions forcing a crash.
+// Ideally I would implement a Result monad here but that's a bit too much work in C.
+
+bool read_input(input_parameters *s) {
     FILE *input_file;
     if (!(input_file = fopen("input.txt", "r"))) {
         printf("Error opening input file.\n");
-        exit(1);
+        return false;
     }
     if (fscanf(input_file,
                "%lf %d %lf %lf %lf",
@@ -31,22 +37,24 @@ void read_input(input_parameters *s) {
                &s->c)
                != 5) {
         printf("Error reading input.\n");
-        exit(1);
+        return false;
     }
     fclose(input_file);
+    return true;
 }
 
-void read_coefficients(double* D, double* S) {
+bool read_coefficients(double* D, double* S) {
     FILE *coefficients_file;
     if (!(coefficients_file = fopen("coefficients.txt", "r"))) {
         printf("Error opening coefficients file.\n");
-        exit(1);
+        return false;
     }
     while (EOF != fscanf(coefficients_file, "%lf %lf\n", D, S)) {
         D++;
         S++;
     }
     fclose(coefficients_file);
+    return true;
 }
 
 int main() {

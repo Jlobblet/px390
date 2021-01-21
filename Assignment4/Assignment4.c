@@ -23,8 +23,8 @@ typedef struct {
 // instead of the functions forcing a crash.
 // Ideally I would implement a Result monad here but that's a bit too much work in C.
 
-bool read_input(input_parameters *s) {
-    FILE *input_file;
+bool read_input(input_parameters* s) {
+    FILE* input_file;
     if (!(input_file = fopen("input.txt", "r"))) {
         printf("Error opening input file.\n");
         return false;
@@ -36,7 +36,7 @@ bool read_input(input_parameters *s) {
                &s->advection_velocity,
                &s->decay_rate,
                &s->c)
-               != 5) {
+        != 5) {
         printf("Error reading input.\n");
         return false;
     }
@@ -45,7 +45,7 @@ bool read_input(input_parameters *s) {
 }
 
 bool read_coefficients(double* D, double* S) {
-    FILE *coefficients_file;
+    FILE* coefficients_file;
     if (!(coefficients_file = fopen("coefficients.txt", "r"))) {
         printf("Error opening coefficients file.\n");
         return false;

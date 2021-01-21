@@ -25,8 +25,9 @@ typedef struct {
 
 bool read_input(input_parameters* s) {
     FILE* input_file;
-    if (!(input_file = fopen("input.txt", "r"))) {
-        printf("Error opening input file.\n");
+#define INPUT_FILE "input.txt"
+    if (!(input_file = fopen(INPUT_FILE, "r"))) {
+        printf("Error opening input file %s.\n", INPUT_FILE);
         return false;
     }
     if (fscanf(input_file,
@@ -46,8 +47,9 @@ bool read_input(input_parameters* s) {
 
 bool read_coefficients(double* D, double* S) {
     FILE* coefficients_file;
-    if (!(coefficients_file = fopen("coefficients.txt", "r"))) {
-        printf("Error opening coefficients file.\n");
+#define COEFFICIENTS_FILE "coefficients.txt"
+    if (!(coefficients_file = fopen(COEFFICIENTS_FILE, "r"))) {
+        printf("Error opening coefficients file %s.\n", COEFFICIENTS_FILE);
         return false;
     }
     // Read each line until EOF, putting numbers into the current element arrays D and S

@@ -49,7 +49,9 @@ bool read_coefficients(double* D, double* S) {
         printf("Error opening coefficients file.\n");
         return false;
     }
+    // Read each line until EOF, putting numbers into the current element arrays D and S
     while (EOF != fscanf(coefficients_file, "%lf %lf\n", D, S)) {
+        // Increment the pointers D and S so that they now point to the next element in the array to be written to
         D++;
         S++;
     }

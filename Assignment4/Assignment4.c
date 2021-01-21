@@ -51,6 +51,7 @@ void read_coefficients(double* D, double* S) {
 int main() {
     input_parameters params;
     read_input(&params);
+
     size_t array_size = sizeof(double) * params.number_points;
     double* D = malloc(array_size);
     double* S = malloc(array_size);
@@ -59,6 +60,7 @@ int main() {
         exit(1);
     }
     read_coefficients(D, S);
+
     for (int i = 0; i < params.number_points; i++) {
         printf("D[%i] = %lf; S[%i] = %lf\n", i, D[i], i, S[i]);
     }

@@ -57,7 +57,7 @@ int main() {
     double* S = malloc(array_size);
     if (D == NULL || S == NULL) {
         printf("Failed to allocated %lu bytes memory", array_size * 2);
-        exit(1);
+        return 1;
     }
     read_coefficients(D, S);
 

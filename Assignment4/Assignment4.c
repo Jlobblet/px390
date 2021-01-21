@@ -48,6 +48,13 @@ bool read_input(input_parameters* s) {
         fclose(input_file);
         return false;
     }
+    // Perform input validation here, so that at any later step of the program it is guaranteed that this function's
+    // return is valid
+    if (*&s->number_points < 3) {
+        printf("Number of grid points must be >= 3 (was %i).\n", *&s->number_points);
+        fclose(input_file);
+        return false;
+    }
     fclose(input_file);
     return true;
 }

@@ -62,7 +62,7 @@ bool read_coefficients(double* D, double* S) {
 
 int main() {
     input_parameters params;
-    read_input(&params);
+    if (!read_input(&params)) { return 1; }
 
     size_t array_size = sizeof(double) * params.number_points;
     double* D = malloc(array_size);
@@ -71,7 +71,7 @@ int main() {
         printf("Failed to allocated %lu bytes memory", array_size * 2);
         return 1;
     }
-    read_coefficients(D, S);
+    if (!read_coefficients(D, S)) { return 1; }
 
     for (int i = 0; i < params.number_points; i++) {
         printf("D[%i] = %lf; S[%i] = %lf\n", i, D[i], i, S[i]);

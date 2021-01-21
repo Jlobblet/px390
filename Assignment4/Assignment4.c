@@ -5,7 +5,9 @@
 #ifdef nenneke
 #include <mkl_lapacke.h>
 #else
+
 #include <lapacke.h>
+
 #endif
 
 // Using a struct to store the input parameters since it makes function signatures nicer
@@ -25,7 +27,7 @@ typedef struct {
 
 bool read_input(input_parameters* s) {
     FILE* input_file;
-#define INPUT_FILE "input.txt"
+    const char INPUT_FILE[] = "input.txt";
     if (!(input_file = fopen(INPUT_FILE, "r"))) {
         printf("Error opening input file %s.\n", INPUT_FILE);
         return false;
@@ -47,7 +49,7 @@ bool read_input(input_parameters* s) {
 
 bool read_coefficients(double* D, double* S) {
     FILE* coefficients_file;
-#define COEFFICIENTS_FILE "coefficients.txt"
+    const char COEFFICIENTS_FILE[] = "coefficients.txt";
     if (!(coefficients_file = fopen(COEFFICIENTS_FILE, "r"))) {
         printf("Error opening coefficients file %s.\n", COEFFICIENTS_FILE);
         return false;

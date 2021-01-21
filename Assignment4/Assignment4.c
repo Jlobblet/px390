@@ -33,6 +33,7 @@ bool read_input(input_parameters* s) {
     const char INPUT_FILE[] = "input.txt";
     if (!(input_file = fopen(INPUT_FILE, "r"))) {
         printf("Error opening input file %s.\n", INPUT_FILE);
+        fclose(input_file);
         return false;
     }
     if (fscanf(input_file,
@@ -44,6 +45,7 @@ bool read_input(input_parameters* s) {
                &s->c)
         != 5) {
         printf("Error reading input.\n");
+        fclose(input_file);
         return false;
     }
     fclose(input_file);
@@ -55,6 +57,7 @@ bool read_coefficients(double* D, double* S) {
     const char COEFFICIENTS_FILE[] = "coefficients.txt";
     if (!(coefficients_file = fopen(COEFFICIENTS_FILE, "r"))) {
         printf("Error opening coefficients file %s.\n", COEFFICIENTS_FILE);
+        fclose(coefficients_file);
         return false;
     }
     // Read each line until EOF, putting numbers into the current element arrays D and S

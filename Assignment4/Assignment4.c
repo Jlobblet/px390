@@ -33,50 +33,55 @@ bool read_input(input_parameters* s) {
     FILE* input_file;
     // Using a const char over #define here since it has a symbol in the debug table
     const char INPUT_FILE[] = "input.txt";
+    // This variable keeps track of whether the function should continue evaluating at each point.
+    // This prevents needing to write
+    //  fclose(input_file);
+    //  return false;
+    // many times, and instead it can be written once at the end.
+    bool r = true;
     if (!(input_file = fopen(INPUT_FILE, "r"))) {
         printf("Error opening input file %s.\n", INPUT_FILE);
-        fclose(input_file);
-        return false;
+        r = false;
     }
-    if (fscanf(input_file,
-               "%lf %d %lf %lf %lf",
-               &s->domain_length,
-               &s->number_points,
-               &s->advection_velocity,
-               &s->decay_rate,
-               &s->c)
-        != 5) {
+    // By using the && operator, the right hand expression is not evaluated if the left hand expression is
+    // 0 (or false, since false is just defined to be 0).
+    if (r && fscanf(input_file,
+                    "%lf %d %lf %lf %lf",
+                    &s->domain_length,
+                    &s->number_points,
+                    &s->advection_velocity,
+                    &s->decay_rate,
+                    &s->c)
+             != 5) {
         printf("Error reading input.\n");
-        fclose(input_file);
-        return false;
+        r = false;
     }
     // Perform input validation here, so that at any later step of the program it is guaranteed that this function's
     // return is valid
-    if (*&s->number_points < 3) {
+    if (r && *&s->number_points < 3) {
         printf("Number of grid points must be >= 3 (was %i).\n", *&s->number_points);
-        fclose(input_file);
-        return false;
+        r = false;
     }
     fclose(input_file);
-    return true;
+    return r;
 }
 
 bool read_coefficients(double* D, double* S) {
     FILE* coefficients_file;
     const char COEFFICIENTS_FILE[] = "coefficients.txt";
+    bool r = true;
     if (!(coefficients_file = fopen(COEFFICIENTS_FILE, "r"))) {
         printf("Error opening coefficients file %s.\n", COEFFICIENTS_FILE);
-        fclose(coefficients_file);
-        return false;
+        r = false;
     }
     // Read each line until EOF, putting numbers into the current element arrays D and S
-    while (EOF != fscanf(coefficients_file, "%lf %lf\n", D, S)) {
+    while (r && EOF != fscanf(coefficients_file, "%lf %lf\n", D, S)) {
         // Increment the pointers D and S so that they now point to the next element in the array to be written to
         D++;
         S++;
     }
     fclose(coefficients_file);
-    return true;
+    return r;
 }
 
 // Band matrix

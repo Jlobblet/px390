@@ -7,13 +7,14 @@
 #include <lapacke.h>
 #endif
 
-struct input_parameters {
+// Using a struct to store the input parameters since it makes function signatures nicer
+typedef struct {
     double domain_length; // aka L
     int number_points; // N
     double advection_velocity; // nu
     double decay_rate; // tau
     double c;
-} typedef input_parameters;
+} input_parameters;
 
 void read_input(input_parameters *s) {
     FILE *input_file;

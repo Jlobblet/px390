@@ -139,12 +139,64 @@ void finalise_band_matrix(band_matrix* bm) {
     free(bm->ipiv);
 }
 
+// This function returns NULL instead of crashing so that the call site can determine what to do in case of error.
+// Again a Result or Option/Maybe monad would be ideal here.
+
+double* getp(band_matrix* bm, long row, long column) {
+    if (row < 0 || column < 0 || row >= bm->n_columns || column >= bm->n_columns) {
+        printf("Index out of bounds: given (%ld, %ld), size is (%ld, %ld)\n", row, column, bm->n_columns,
+               bm->n_columns);
+        return NULL;
+    }
+
+    long band_number = bm->n_bands_upper + row - column;
+    return &bm->array[bm->n_band_rows * column + band_number];
+}
+
+bool setv(band_matrix* bm, long row, long column, double value) {
+    double* ptr = getp(bm, row, column);
+    if (ptr == NULL) {
+        return false;
+    }
+    *ptr = value;
+    return true;
+}
+
+void print_mat(band_matrix* bm) {
+    for (long i = 0; i < bm->n_columns; i++) {
+        for (long j = 0; j < bm->n_band_rows; j++) {
+            printf("%lf      ", *getp(bm, j, i));
+        }
+        printf("\n");
+    }
+}
+
+int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
+    for (long i = 0L; i < bm->n_columns; i++) {
+        x[i] = b[i];
+        for (long band = 0L; band < bm->n_band_rows; band++) {
+            bm->array_inv[bm->n_band_rows_inv * i + band + bm->n_bands_lower] = bm->array[bm->n_band_rows * i + band];
+        }
+    }
+
+    long n_rhs = 1L;
+    long ldab = bm->n_bands_lower * 2 + bm->n_bands_upper + 1;
+    int info = LAPACKE_dgbsv(LAPACK_COL_MAJOR, bm->n_columns, bm->n_bands_lower, bm->n_bands_upper, n_rhs,
+                             bm->array_inv, ldab, bm->ipiv, NULL, bm->n_columns);
+
+    return info;
+}
+
 // Main
 
 int main() {
     input_parameters params;
     // Since we left error handling to the call site, we must exit the program here if the function failed.
     if (!read_input(&params)) { return 1; }
+
+    // The matrix has to be square, so we must have a grid spacing equal to domain length divided by number of points
+    double grid_spacing = params.domain_length / (params.number_points - 1);
+    double grid_spacing_sq = grid_spacing * grid_spacing;
 
     size_t array_size = sizeof(double) * params.number_points;
     double* D = malloc(array_size);
@@ -156,12 +208,83 @@ int main() {
         printf("Failed to allocated %lu bytes memory", array_size * 2);
         return 1;
     }
+    // Exit the program if reading coefficients fails
     if (!read_coefficients(D, S)) { return 1; }
 
-    for (int i = 0; i < params.number_points; i++) {
-        printf("D[%i] = %lf; S[%i] = %lf\n", i, D[i], i, S[i]);
+    // Create band matrices
+    // Exit program if either of these fail to be instantiated
+
+    band_matrix P_matrix;
+    if (!init_band_matrix(&P_matrix, 1L, 1L, params.number_points)) { return 1; }
+
+    band_matrix Q_matrix;
+    if (!init_band_matrix(&Q_matrix, 1L, 1L, params.number_points)) { return 1; }
+
+    // Initial values for the P matrix
+
+    // Initial boundary conditions
+    setv(&P_matrix, 0L, 0L, params.decay_rate); // aka tau
+    setv(&Q_matrix, 0L, 0L, 1.0);
+
+    // Middle bit of the matrix
+    for (long i = 1L; i < params.number_points - 1L; i++) {
+        // Matrix for P
+        // -ν/dx - D(x_{i-1}) / dx^2
+        setv(&P_matrix, i, i - 1L,
+             -params.advection_velocity / grid_spacing
+             - D[i - 1] / grid_spacing_sq
+        );
+        // τ + ν/dx - (D(x_i) + D(x_{i-1})) / dx^2
+        setv(&P_matrix, i, i,
+             params.decay_rate
+             + params.advection_velocity / grid_spacing
+             + (D[i] + D[i - 1]) / grid_spacing_sq
+        );
+        // -D(x_i) / dx^2
+        setv(&P_matrix, i, i + 1L,
+             -D[i] / grid_spacing_sq
+        );
+        // Matrix for Q
+        // -ν/dx - D(x_{i-1}) / dx^2
+        setv(&Q_matrix, i, i - 1L,
+             -params.advection_velocity / grid_spacing
+             - D[i - 1] / grid_spacing_sq
+        );
+        // ν/dx + (D(x_i) + D(x_{i-1})) / dx^2
+        setv(&Q_matrix, i, i,
+             params.advection_velocity / grid_spacing
+             + (D[i] + D[i - 1]) / grid_spacing_sq
+        );
+        // -D(x_i) / dx^2
+        setv(&Q_matrix, i, i + 1L,
+             -D[i] / grid_spacing_sq
+        );
     }
+
+    // Final boundary conditions
+    setv(&P_matrix, params.number_points - 1, params.number_points - 1, 1.0);
+    setv(&Q_matrix, params.number_points - 1, params.number_points - 1, 1.0);
+
+    // Solve equation
+    double* P = malloc(array_size);
+    double* Q = malloc(array_size);
+    double* P_decay = malloc(array_size);
+
+    solve_Ax_eq_b(&P_matrix, P, S);
+    for (long i = 0L; i < P_matrix.n_columns; i++) {
+        P_decay[i] = params.decay_rate * P[i];
+    }
+    // Account for the final boundary condition
+    P_decay[P_matrix.n_columns - 1] = params.c;
+
+    solve_Ax_eq_b(&Q_matrix, Q, P_decay);
+
     free(D);
     free(S);
+    free(P);
+    free(Q);
+    free(P_decay);
+    finalise_band_matrix(&P_matrix);
+    finalise_band_matrix(&Q_matrix);
     return 0;
 }

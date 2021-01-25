@@ -182,7 +182,7 @@ int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
     long n_rhs = 1L;
     long ldab = bm->n_bands_lower * 2 + bm->n_bands_upper + 1;
     int info = LAPACKE_dgbsv(LAPACK_COL_MAJOR, bm->n_columns, bm->n_bands_lower, bm->n_bands_upper, n_rhs,
-                             bm->array_inv, ldab, bm->ipiv, NULL, bm->n_columns);
+                             bm->array_inv, ldab, bm->ipiv, b, bm->n_columns);
 
     return info;
 }

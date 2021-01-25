@@ -84,6 +84,23 @@ bool read_coefficients(double* D, double* S) {
     return r;
 }
 
+bool write_output(int number_points, double grid_spacing, double* P, double* Q) {
+    FILE* output_file;
+    const char OUTPUT_FILE[] = "output.txt";
+    bool r = true;
+    if (!(output_file = fopen(OUTPUT_FILE, "w+"))) {
+        printf("Error creating or editing output file %s.\n", OUTPUT_FILE);
+        r = false;
+    }
+    if (r) {
+        for (int i = 0; i < number_points; i++) {
+            fprintf(output_file, "%lf %lf %lf\n", grid_spacing * i, P[i], Q[i]);
+        }
+    }
+    fclose(output_file);
+    return r;
+}
+
 // Band matrix
 
 typedef struct {
@@ -278,6 +295,8 @@ int main() {
     P_decay[P_matrix.n_columns - 1] = params.c;
 
     solve_Ax_eq_b(&Q_matrix, Q, P_decay);
+
+    if (!write_output(params.number_points, grid_spacing, P, Q)) { return 1; }
 
     free(D);
     free(S);

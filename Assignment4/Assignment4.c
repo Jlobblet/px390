@@ -326,8 +326,10 @@ int main() {
 
     solve_system_of_linear_equation(&Q_matrix, Q, P_decay);
 
+    // Write output
     if (!write_output(params.number_points, grid_spacing, P, Q)) { return 1; }
 
+    // Clean up
     free(D);
     free(S);
     free(P);

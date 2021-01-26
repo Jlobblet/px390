@@ -278,47 +278,47 @@ int main() {
     // Initial values for the P matrix
 
     // Initial boundary conditions
-    setv(&P_matrix, 0L, 0L, params.decay_rate); // aka tau
-    setv(&Q_matrix, 0L, 0L, 1.0);
+    setv_crash(&P_matrix, 0L, 0L, params.decay_rate); // aka tau
+    setv_crash(&Q_matrix, 0L, 0L, 1.0);
 
     // Middle bit of the matrix
     for (long i = 1L; i < params.number_points - 1L; i++) {
         // Matrix for P
         // P_{i, i-1} = -ν/Δx - D(x_{i-1}) / Δx^2
-        setv(&P_matrix, i, i - 1L,
+        setv_crash(&P_matrix, i, i - 1L,
              -params.advection_velocity / grid_spacing
              - D[i - 1] / grid_spacing_sq
         );
         // P_{i, i} = τ + ν/Δx - (D(x_i) + D(x_{i-1})) / Δx^2
-        setv(&P_matrix, i, i,
+        setv_crash(&P_matrix, i, i,
              params.decay_rate
              + params.advection_velocity / grid_spacing
              + (D[i] + D[i - 1]) / grid_spacing_sq
         );
         // P_{i, i + 1} = -D(x_i) / Δx^2
-        setv(&P_matrix, i, i + 1L,
+        setv_crash(&P_matrix, i, i + 1L,
              -D[i] / grid_spacing_sq
         );
         // Matrix for Q
         // Q_{i, i - 1} = -ν/Δx - D(x_{i-1}) / Δx^2
-        setv(&Q_matrix, i, i - 1L,
+        setv_crash(&Q_matrix, i, i - 1L,
              -params.advection_velocity / grid_spacing
              - D[i - 1] / grid_spacing_sq
         );
         // Q_{i, i} = ν/Δx + (D(x_i) + D(x_{i-1})) / Δx^2
-        setv(&Q_matrix, i, i,
+        setv_crash(&Q_matrix, i, i,
              params.advection_velocity / grid_spacing
              + (D[i] + D[i - 1]) / grid_spacing_sq
         );
         // Q_{i, i + 1} = -D(x_i) / Δx^2
-        setv(&Q_matrix, i, i + 1L,
+        setv_crash(&Q_matrix, i, i + 1L,
              -D[i] / grid_spacing_sq
         );
     }
 
     // Final boundary conditions
-    setv(&P_matrix, P_matrix.n_columns - 1, P_matrix.n_columns - 1, 1.0);
-    setv(&Q_matrix, Q_matrix.n_columns - 1, Q_matrix.n_columns - 1, 1.0);
+    setv_crash(&P_matrix, P_matrix.n_columns - 1, P_matrix.n_columns - 1, 1.0);
+    setv_crash(&Q_matrix, Q_matrix.n_columns - 1, Q_matrix.n_columns - 1, 1.0);
 
     // Solve equation
     double* P = malloc(array_size);

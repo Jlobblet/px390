@@ -142,6 +142,10 @@ bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, l
         bm->array[i] = 0.0;
     }
 
+    for (long i = 0L; i < (bm->n_band_rows + bm->n_bands_lower) * bm->n_columns; i++) {
+        bm->array_inv[i] = 0.0;
+    }
+
     return true;
 }
 

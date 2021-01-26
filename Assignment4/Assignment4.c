@@ -17,7 +17,7 @@
 
 typedef struct {
     double domain_length; // aka L
-    int number_points; // N
+    long number_points; // N
     double advection_velocity; // nu
     double decay_rate; // tau
     double c; // value of P and Q at the right boundary x = L
@@ -46,7 +46,7 @@ bool read_input(input_parameters* s) {
     // By using the && operator, the right hand expression is not evaluated if the left hand expression is
     // 0 (or false, since false is just defined to be 0).
     if (r && fscanf(input_file,
-                    "%lf %d %lf %lf %lf",
+                    "%lf %ld %lf %lf %lf",
                     &s->domain_length,
                     &s->number_points,
                     &s->advection_velocity,
@@ -59,7 +59,7 @@ bool read_input(input_parameters* s) {
     // Perform input validation here, so that at any later step of the program it is guaranteed that this function's
     // return is valid
     if (r && *&s->number_points < 3) {
-        printf("Number of grid points must be >= 3 (was %i).\n", *&s->number_points);
+        printf("Number of grid points must be >= 3 (was %ld).\n", *&s->number_points);
         r = false;
     }
     fclose(input_file);

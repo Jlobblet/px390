@@ -266,33 +266,33 @@ int main() {
         // Matrix for P
         // P_{i, i-1} = -ν/Δx - D(x_{i-1}) / Δx^2
         setv_crash(&P_matrix, i, i - 1L,
-             -params.advection_velocity / grid_spacing
-             - D[i - 1] / grid_spacing_sq
+                   -params.advection_velocity / grid_spacing
+                   - D[i - 1] / grid_spacing_sq
         );
         // P_{i, i} = τ + ν/Δx - (D(x_i) + D(x_{i-1})) / Δx^2
         setv_crash(&P_matrix, i, i,
-             params.decay_rate
-             + params.advection_velocity / grid_spacing
-             + (D[i] + D[i - 1]) / grid_spacing_sq
+                   params.decay_rate
+                   + params.advection_velocity / grid_spacing
+                   + (D[i] + D[i - 1]) / grid_spacing_sq
         );
         // P_{i, i + 1} = -D(x_i) / Δx^2
         setv_crash(&P_matrix, i, i + 1L,
-             -D[i] / grid_spacing_sq
+                   -D[i] / grid_spacing_sq
         );
         // Matrix for Q
         // Q_{i, i - 1} = -ν/Δx - D(x_{i-1}) / Δx^2
         setv_crash(&Q_matrix, i, i - 1L,
-             -params.advection_velocity / grid_spacing
-             - D[i - 1] / grid_spacing_sq
+                   -params.advection_velocity / grid_spacing
+                   - D[i - 1] / grid_spacing_sq
         );
         // Q_{i, i} = ν/Δx + (D(x_i) + D(x_{i-1})) / Δx^2
         setv_crash(&Q_matrix, i, i,
-             params.advection_velocity / grid_spacing
-             + (D[i] + D[i - 1]) / grid_spacing_sq
+                   params.advection_velocity / grid_spacing
+                   + (D[i] + D[i - 1]) / grid_spacing_sq
         );
         // Q_{i, i + 1} = -D(x_i) / Δx^2
         setv_crash(&Q_matrix, i, i + 1L,
-             -D[i] / grid_spacing_sq
+                   -D[i] / grid_spacing_sq
         );
     }
 

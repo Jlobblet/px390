@@ -187,24 +187,6 @@ void setv_crash(band_matrix* bm, long row, long column, double value) {
     if (!setv(bm, row, column, value)) { exit(1); }
 }
 
-void print_mat(band_matrix* bm) {
-    for (long i = 0L; i < bm->n_columns; i++) {
-        for (long j = 0L; j < bm->n_band_rows; j++) {
-            printf("%lf      ", *getp(bm, j, i));
-        }
-        printf("\n");
-    }
-}
-
-
-void print_mat2(band_matrix* bm) {
-    for (long i = 0L; i < bm->n_columns; i++) {
-        for (long j = 0L; j < bm->n_band_rows; j++) {
-            printf("%ld %ld %g \n", i, j, bm->array[bm->n_band_rows * i + j]);
-        }
-    }
-}
-
 int solve_Ax_eq_b(band_matrix* bm, double* left_side_array, double* right_side_array) {
     for (long i = 0L; i < bm->n_columns; i++) {
         for (long band = 0L; band < bm->n_band_rows; band++) {

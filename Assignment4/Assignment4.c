@@ -1,3 +1,7 @@
+// I had to use the following compiler flags locally
+// -Wall -Werror -std=c99 -I/usr/include/mkl/ -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+// However it worked on nenneke using the method outlined in the specification.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

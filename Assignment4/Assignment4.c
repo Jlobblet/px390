@@ -312,7 +312,7 @@ int main() {
     double* Q = malloc(array_size);
     double* P_decay = malloc(array_size);
 
-    if (P == NULL || Q == NULL | P_decay == NULL) {
+    if (P == NULL || Q == NULL || P_decay == NULL) {
         printf("Failed to allocate %lu bytes of memory.\n", 3 * array_size);
         return 1;
     }

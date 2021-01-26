@@ -235,11 +235,19 @@ int main() {
     // Create band matrices
     // Exit program if either of these fail to be instantiated
 
+    // Band matrix has 1 above diagonal,
+    long n_bands_upper = 1L;
+    // and 1 below diagonal.
+    long n_bands_lower = 1L;
+    // And the number of columns is the same as the number of points.
+    // This is also the same as the number of rows in the original matrix.
+    long n_cols = params.number_points;
+
     band_matrix P_matrix;
-    if (!init_band_matrix(&P_matrix, 1L, 1L, params.number_points)) { return 1; }
+    if (!init_band_matrix(&P_matrix, n_bands_upper, n_bands_lower, n_cols)) { return 1; }
 
     band_matrix Q_matrix;
-    if (!init_band_matrix(&Q_matrix, 1L, 1L, params.number_points)) { return 1; }
+    if (!init_band_matrix(&Q_matrix, n_bands_upper, n_bands_lower, n_cols)) { return 1; }
 
     // Initial values for the P matrix
 

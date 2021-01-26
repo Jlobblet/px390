@@ -88,7 +88,7 @@ bool write_output(int number_points, double grid_spacing, double* P, double* Q) 
     FILE* output_file;
     const char OUTPUT_FILE[] = "output.txt";
     bool r = true;
-    if (!(output_file = fopen(OUTPUT_FILE, "w+"))) {
+    if (!(output_file = fopen(OUTPUT_FILE, "w"))) {
         printf("Error creating or editing output file %s.\n", OUTPUT_FILE);
         r = false;
     }

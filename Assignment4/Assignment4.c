@@ -275,33 +275,33 @@ int main() {
     // Middle bit of the matrix
     for (long i = 1L; i < params.number_points - 1L; i++) {
         // Matrix for P
-        // -ν/Δx - D(x_{i-1}) / Δx^2
+        // P_{i, i-1} = -ν/Δx - D(x_{i-1}) / Δx^2
         setv(&P_matrix, i, i - 1L,
              -params.advection_velocity / grid_spacing
              - D[i - 1] / grid_spacing_sq
         );
-        // τ + ν/Δx - (D(x_i) + D(x_{i-1})) / Δx^2
+        // P_{i, i} = τ + ν/Δx - (D(x_i) + D(x_{i-1})) / Δx^2
         setv(&P_matrix, i, i,
              params.decay_rate
              + params.advection_velocity / grid_spacing
              + (D[i] + D[i - 1]) / grid_spacing_sq
         );
-        // -D(x_i) / Δx^2
+        // P_{i, i + 1} = -D(x_i) / Δx^2
         setv(&P_matrix, i, i + 1L,
              -D[i] / grid_spacing_sq
         );
         // Matrix for Q
-        // -ν/Δx - D(x_{i-1}) / Δx^2
+        // Q_{i, i - 1} = -ν/Δx - D(x_{i-1}) / Δx^2
         setv(&Q_matrix, i, i - 1L,
              -params.advection_velocity / grid_spacing
              - D[i - 1] / grid_spacing_sq
         );
-        // ν/Δx + (D(x_i) + D(x_{i-1})) / Δx^2
+        // Q_{i, i} = ν/Δx + (D(x_i) + D(x_{i-1})) / Δx^2
         setv(&Q_matrix, i, i,
              params.advection_velocity / grid_spacing
              + (D[i] + D[i - 1]) / grid_spacing_sq
         );
-        // -D(x_i) / Δx^2
+        // Q_{i, i + 1} = -D(x_i) / Δx^2
         setv(&Q_matrix, i, i + 1L,
              -D[i] / grid_spacing_sq
         );

@@ -305,6 +305,7 @@ int main() {
     setv_crash(&Q_matrix, Q_matrix.n_columns - 1, Q_matrix.n_columns - 1, 1.0);
 
     // Solve equation
+
     double* P = malloc(array_size);
     double* Q = malloc(array_size);
     double* P_decay = malloc(array_size);
@@ -315,6 +316,8 @@ int main() {
     }
 
     solve_system_of_linear_equation(&P_matrix, P, S);
+
+    // Create P_decay, equal to P_i * tau
     for (long i = 0L; i < P_matrix.n_columns; i++) {
         P_decay[i] = params.decay_rate * P[i];
     }

@@ -135,6 +135,7 @@ bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, l
     bm->array_inv = malloc(array_inv_size);
     bm->ipiv = malloc(ipiv_size);
 
+    // Check memory was allocated
     if (bm->array == NULL || bm->array_inv == NULL || bm->ipiv == NULL) {
         printf("Failed to allocate %lu bytes of memory for band matrix.\n", array_size + array_inv_size + ipiv_size);
         return false;

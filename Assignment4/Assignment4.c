@@ -287,6 +287,11 @@ int main() {
     double* Q = malloc(array_size);
     double* P_decay = malloc(array_size);
 
+    if (P == NULL || Q == NULL | P_decay == NULL) {
+        printf("Failed to allocate %lu bytes of memory.\n", 3 * array_size);
+        return 1;
+    }
+
     solve_Ax_eq_b(&P_matrix, P, S);
     for (long i = 0L; i < P_matrix.n_columns; i++) {
         P_decay[i] = params.decay_rate * P[i];

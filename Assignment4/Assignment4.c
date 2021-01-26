@@ -212,7 +212,7 @@ int main() {
     // Since we left error handling to the call site, we must exit the program here if the function failed.
     if (!read_input(&params)) { return 1; }
 
-    // The matrix has to be square, so we must have a grid spacing equal to domain length divided by number of points
+    // The matrix has to be square, so we must have a grid spacing equal to domain length divided by number of points - 1
     double grid_spacing = params.domain_length / (params.number_points - 1);
     double grid_spacing_sq = grid_spacing * grid_spacing;
 

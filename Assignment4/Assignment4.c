@@ -189,18 +189,37 @@ void print_mat(band_matrix* bm) {
     }
 }
 
+
+void print_mat2(band_matrix* bm) {
+    for (long i = 0; i < bm->n_columns; i++) {
+        for (long j = 0; j < bm->n_band_rows; j++) {
+            printf("%ld %ld %g \n", i, j, bm->array[bm->n_band_rows * i + j]);
+        }
+    }
+}
+
 int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
     for (long i = 0L; i < bm->n_columns; i++) {
-        x[i] = b[i];
         for (long band = 0L; band < bm->n_band_rows; band++) {
             bm->array_inv[bm->n_band_rows_inv * i + band + bm->n_bands_lower] = bm->array[bm->n_band_rows * i + band];
         }
+        x[i] = b[i];
     }
 
     long n_rhs = 1L;
     long ldab = bm->n_bands_lower * 2 + bm->n_bands_upper + 1;
-    int info = LAPACKE_dgbsv(LAPACK_COL_MAJOR, bm->n_columns, bm->n_bands_lower, bm->n_bands_upper, n_rhs,
-                             bm->array_inv, ldab, bm->ipiv, b, bm->n_columns);
+    int info = LAPACKE_dgbsv(
+            LAPACK_COL_MAJOR,
+            bm->n_columns,
+            bm->n_bands_lower,
+            bm->n_bands_upper,
+            n_rhs,
+            bm->array_inv,
+            ldab,
+            bm->ipiv,
+            b,
+            bm->n_columns
+    );
 
     return info;
 }

@@ -310,8 +310,8 @@ int main() {
     }
 
     // Final boundary conditions
-    setv(&P_matrix, params.number_points - 1, params.number_points - 1, 1.0);
-    setv(&Q_matrix, params.number_points - 1, params.number_points - 1, 1.0);
+    setv(&P_matrix, P_matrix.n_columns - 1, P_matrix.n_columns - 1, 1.0);
+    setv(&Q_matrix, Q_matrix.n_columns - 1, Q_matrix.n_columns - 1, 1.0);
 
     // Solve equation
     double* P = malloc(array_size);

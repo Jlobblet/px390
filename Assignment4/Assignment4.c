@@ -229,6 +229,9 @@ int main() {
     // Exit the program if reading coefficients fails
     if (!read_coefficients(D, S)) { return 1; }
 
+    // Account for final boundary condition
+    S[params.number_points - 1] = params.c;
+
     // Create band matrices
     // Exit program if either of these fail to be instantiated
 

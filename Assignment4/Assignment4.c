@@ -217,20 +217,20 @@ int solve_Ax_eq_b(band_matrix* bm, double* left_side_array, double* right_side_a
 
 int main() {
     input_parameters params;
-    // Since we left error handling to the call site, we must exit the program here if the function failed.
+    // Since handling errors is left to the call site, the program must exit here if the function failed.
     if (!read_input(&params)) { return 1; }
 
-    // The matrix has to be square, so we must have a grid spacing equal to domain length divided by number of points - 1
+    // The matrix has to be square, so the grid spacing must be equal to domain length divided by number of points - 1
     double grid_spacing = params.domain_length / (params.number_points - 1);
     double grid_spacing_sq = grid_spacing * grid_spacing;
 
     size_t array_size = sizeof(double) * params.number_points;
     double* D = malloc(array_size);
     double* S = malloc(array_size);
-    // Ensure that we were allocated the memory asked for.
+    // Ensure that the memory asked for has been allocated.
     if (D == NULL || S == NULL) {
         // array_size * 2 since if either D or S failed to allocate the program will exit.
-        // We don't know which failed, but it doesn't matter - we need both for the program to work.
+        // Without checking it is not known which failed, but it doesn't matter - both are needed for the program to work.
         printf("Failed to allocated %lu bytes memory", array_size * 2);
         return 1;
     }

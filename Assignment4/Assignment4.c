@@ -14,7 +14,7 @@ typedef struct {
     long number_points; // N
     double advection_velocity; // nu
     double decay_rate; // tau
-    double c; // value of P and Q at the right boundary x = L
+    double final_value; // c
 } input_parameters;
 
 // The read input functions return a bool
@@ -45,7 +45,7 @@ bool read_input(input_parameters* s) {
                     &s->number_points,
                     &s->advection_velocity,
                     &s->decay_rate,
-                    &s->c)
+                    &s->final_value)
              != 5) {
         printf("Error reading input.\n");
         r = false;
@@ -247,7 +247,7 @@ int main() {
     if (!read_coefficients(D, S)) { return 1; }
 
     // Account for final boundary condition
-    S[params.number_points - 1] = params.c;
+    S[params.number_points - 1] = params.final_value;
 
     // Create band matrices
     // Exit program if either of these fail to be instantiated
@@ -326,7 +326,7 @@ int main() {
         P_decay[i] = params.decay_rate * P[i];
     }
     // Account for the final boundary condition
-    P_decay[P_matrix.n_columns - 1] = params.c;
+    P_decay[P_matrix.n_columns - 1] = params.final_value;
 
     solve_Ax_eq_b(&Q_matrix, Q, P_decay);
 

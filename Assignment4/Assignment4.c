@@ -187,7 +187,7 @@ void setv_crash(band_matrix* bm, long row, long column, double value) {
     if (!setv(bm, row, column, value)) { exit(1); }
 }
 
-int solve_Ax_eq_b(band_matrix* bm, double* left_side_array, double* right_side_array) {
+int solve_system_of_linear_equation(band_matrix* bm, double* left_side_array, double* right_side_array) {
     for (long i = 0L; i < bm->n_columns; i++) {
         for (long band = 0L; band < bm->n_band_rows; band++) {
             bm->array_inv[bm->n_band_rows_inv * i + band + bm->n_bands_lower] = bm->array[bm->n_band_rows * i + band];
@@ -310,14 +310,14 @@ int main() {
         return 1;
     }
 
-    solve_Ax_eq_b(&P_matrix, P, S);
+    solve_system_of_linear_equation(&P_matrix, P, S);
     for (long i = 0L; i < P_matrix.n_columns; i++) {
         P_decay[i] = params.decay_rate * P[i];
     }
     // Account for the final boundary condition
     P_decay[P_matrix.n_columns - 1] = params.final_value;
 
-    solve_Ax_eq_b(&Q_matrix, Q, P_decay);
+    solve_system_of_linear_equation(&Q_matrix, Q, P_decay);
 
     if (!write_output(params.number_points, grid_spacing, P, Q)) { return 1; }
 

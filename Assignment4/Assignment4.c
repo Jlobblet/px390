@@ -117,12 +117,14 @@ typedef struct {
 } band_matrix;
 
 bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, long n_columns) {
-
     bm->n_columns = n_columns;
     // Adding 1 to account for the diagonal
     bm->n_band_rows = n_bands_upper + n_bands_lower + 1;
+    // The number of bands above the diagonal
     bm->n_bands_upper = n_bands_upper;
+    // The number of bands below the diagonal
     bm->n_bands_lower = n_bands_lower;
+    // The number of rows in the inverse
     bm->n_band_rows_inv = bm->n_bands_upper * 2 + bm->n_bands_lower + 1;
 
     size_t array_size = sizeof(double) * bm->n_band_rows * bm->n_columns;
@@ -138,6 +140,7 @@ bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, l
         return false;
     }
 
+    // Initialise the array and inverse array to 0
     for (long i = 0L; i < bm->n_band_rows * bm->n_columns; i++) {
         bm->array[i] = 0.0;
     }

@@ -138,7 +138,7 @@ bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, l
         return false;
     }
 
-    for (long i = 0; i < bm->n_band_rows * bm->n_columns; i++) {
+    for (long i = 0L; i < bm->n_band_rows * bm->n_columns; i++) {
         bm->array[i] = 0.0;
     }
 
@@ -179,8 +179,8 @@ bool setv(band_matrix* bm, long row, long column, double value) {
 }
 
 void print_mat(band_matrix* bm) {
-    for (long i = 0; i < bm->n_columns; i++) {
-        for (long j = 0; j < bm->n_band_rows; j++) {
+    for (long i = 0L; i < bm->n_columns; i++) {
+        for (long j = 0L; j < bm->n_band_rows; j++) {
             printf("%lf      ", *getp(bm, j, i));
         }
         printf("\n");
@@ -189,8 +189,8 @@ void print_mat(band_matrix* bm) {
 
 
 void print_mat2(band_matrix* bm) {
-    for (long i = 0; i < bm->n_columns; i++) {
-        for (long j = 0; j < bm->n_band_rows; j++) {
+    for (long i = 0L; i < bm->n_columns; i++) {
+        for (long j = 0L; j < bm->n_band_rows; j++) {
             printf("%ld %ld %g \n", i, j, bm->array[bm->n_band_rows * i + j]);
         }
     }
@@ -205,7 +205,7 @@ int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
     }
 
     long n_rhs = 1L;
-    long ldab = bm->n_bands_lower * 2 + bm->n_bands_upper + 1;
+    long ldab = bm->n_bands_lower * 2L + bm->n_bands_upper + 1L;
     int info = LAPACKE_dgbsv(
             LAPACK_COL_MAJOR,
             bm->n_columns,

@@ -196,12 +196,12 @@ void print_mat2(band_matrix* bm) {
     }
 }
 
-int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
+int solve_Ax_eq_b(band_matrix* bm, double* left_side_array, double* right_side_array) {
     for (long i = 0L; i < bm->n_columns; i++) {
         for (long band = 0L; band < bm->n_band_rows; band++) {
             bm->array_inv[bm->n_band_rows_inv * i + band + bm->n_bands_lower] = bm->array[bm->n_band_rows * i + band];
         }
-        x[i] = b[i];
+        left_side_array[i] = right_side_array[i];
     }
 
     long n_rhs = 1L;
@@ -215,7 +215,7 @@ int solve_Ax_eq_b(band_matrix* bm, double* x, double* b) {
             bm->array_inv,
             ldab,
             bm->ipiv,
-            b,
+            left_side_array,
             bm->n_columns
     );
 

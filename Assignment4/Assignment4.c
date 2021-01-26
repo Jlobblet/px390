@@ -4,7 +4,7 @@
 
 #include <mkl_lapacke.h>
 
-// Input
+// IO
 
 // Using a struct to store the input parameters since it makes function signatures nicer and keeps the
 // variables together in a logical grouping.

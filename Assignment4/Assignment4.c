@@ -78,7 +78,7 @@ bool read_coefficients(double* D, double* S) {
     return r;
 }
 
-bool write_output(int number_points, double grid_spacing, double* P, double* Q) {
+bool write_output(long number_points, double grid_spacing, double* P, double* Q) {
     FILE* output_file;
     const char OUTPUT_FILE[] = "output.txt";
     bool r = true;
@@ -87,7 +87,7 @@ bool write_output(int number_points, double grid_spacing, double* P, double* Q) 
         r = false;
     }
     if (r) {
-        for (int i = 0; i < number_points; i++) {
+        for (long i = 0; i < number_points; i++) {
             fprintf(output_file, "%lf %lf %lf\n", grid_spacing * i, P[i], Q[i]);
         }
     }

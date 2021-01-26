@@ -17,11 +17,11 @@ typedef struct {
     double final_value; // c
 } input_parameters;
 
-// The read input functions return a bool
+// The IO functions return a bool
 // true if they succeed, false if they fail.
 // This is so that the piece of code that calls these functions can choose how to handle failure,
 // instead of the functions forcing an exit.
-// Ideally I would use a Result monad here but that's a bit too much work in C.
+// Ideally I would use a Result or Option/Maybe monad here but it's a bit too much work to write my own in C.
 
 bool read_input(input_parameters* s) {
     FILE* input_file;

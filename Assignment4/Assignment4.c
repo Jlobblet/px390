@@ -125,6 +125,7 @@ typedef struct {
 bool init_band_matrix(band_matrix* bm, long n_bands_upper, long n_bands_lower, long n_columns) {
 
     bm->n_columns = n_columns;
+    // Adding 1 to account for the diagonal
     bm->n_band_rows = n_bands_upper + n_bands_lower + 1;
     bm->n_bands_upper = n_bands_upper;
     bm->n_bands_lower = n_bands_lower;

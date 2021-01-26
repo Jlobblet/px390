@@ -257,8 +257,6 @@ int main() {
     band_matrix Q_matrix;
     if (!init_band_matrix(&Q_matrix, n_bands_upper, n_bands_lower, n_cols)) { return 1; }
 
-    // Initial values for the P matrix
-
     // Initial boundary conditions
     setv_crash(&P_matrix, 0L, 0L, params.decay_rate); // aka tau
     setv_crash(&Q_matrix, 0L, 0L, 1.0);
